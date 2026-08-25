@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="rain" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a12"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#rain)"/>
+  <line x1="100" y1="0" x2="95" y2="800" stroke="rgba(180,190,220,0.15)" stroke-width="1"/>
+  <line x1="200" y1="0" x2="190" y2="800" stroke="rgba(180,190,220,0.1)" stroke-width="1"/>
+  <line x1="350" y1="0" x2="340" y2="800" stroke="rgba(180,190,220,0.12)" stroke-width="1"/>
+  <line x1="500" y1="0" x2="490" y2="800" stroke="rgba(180,190,220,0.08)" stroke-width="1"/>
+  <line x1="650" y1="0" x2="640" y2="800" stroke="rgba(180,190,220,0.1)" stroke-width="1"/>
+  <text x="400" y="420" text-anchor="middle" fill="#8A8A8A" font-family="serif" font-size="14">Replace with your photo</text>
+</svg>
