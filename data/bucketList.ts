@@ -2,8 +2,10 @@ export interface BucketListItem {
   id: number;
   title: string;
   lines: string[];
-  visual: "food" | "office" | "saree" | "road" | "cooking" | "birthday" | "varanasi" | "playful";
+  visual: "food" | "office" | "saree" | "road" | "cooking" | "birthday" | "varanasi" | "playful" | "google-coffee";
   isPlayful?: boolean;
+  lockedLabel?: string;
+  footerLines?: string[];
 }
 
 export const bucketListSection = {
@@ -98,6 +100,23 @@ export const bucketListSection = {
       lines: ["If you ever say yes...", "Maybe I'll marry you. 😂"],
       visual: "playful",
       isPlayful: true,
+    },
+    {
+      id: 9,
+      title: "COFFEE DATE AT GOOGLE ☕",
+      lines: [
+        "One day...",
+        "A coffee date at Google.",
+        "Google office + coffee + endless conversations.",
+        "Let's see if we can make this one happen. 😂",
+      ],
+      visual: "google-coffee",
+      isPlayful: true,
+      lockedLabel: "LOCKED",
+      footerLines: [
+        "Until then...",
+        "Coffee somewhere else will have to do. 😂",
+      ],
     },
   ] satisfies BucketListItem[],
 };

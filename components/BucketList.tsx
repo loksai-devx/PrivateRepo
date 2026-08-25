@@ -15,7 +15,34 @@ const visualStyles: Record<BucketListItem["visual"], string> = {
   birthday: "from-purple-900/20 via-black to-black",
   varanasi: "from-amber-800/15 via-black to-black",
   playful: "from-red-900/10 via-purple-900/10 to-black",
+  "google-coffee": "from-slate-800/25 via-purple-900/15 to-black",
 };
+
+type RevealPhase = "locked" | "oneDay" | "animating" | "revealed";
+
+function GoogleCoffeeReveal() {
+  return (
+    <div className="flex items-center justify-center gap-4 py-6">
+      <motion.span
+        initial={{ opacity: 0, scale: 0.6, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="text-3xl"
+        aria-hidden
+      >
+        ☕
+      </motion.span>
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="text-lg tracking-[0.35em] text-white font-light"
+      >
+        GOOGLE
+      </motion.span>
+    </div>
+  );
+}
 
 function BucketCardWithTrack({
   item,
@@ -25,21 +52,49 @@ function BucketCardWithTrack({
   onUnlock: () => void;
 }) {
   const [unlocked, setUnlocked] = useState(false);
+  const [phase, setPhase] = useState<RevealPhase>("locked");
   const num = String(item.id).padStart(2, "0");
+  const isGoogleCoffee = item.visual === "google-coffee";
+  const lockedLabel = item.lockedLabel ?? bucketListSection.statusLocked;
+
+  useEffect(() => {
+    if (phase !== "oneDay") return;
+    const t = setTimeout(() => setPhase("animating"), 900);
+    return () => clearTimeout(t);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== "animating") return;
+    const t = setTimeout(() => {
+      setPhase("revealed");
+      setUnlocked(true);
+      onUnlock();
+    }, 1800);
+    return () => clearTimeout(t);
+  }, [phase, onUnlock]);
 
   const handleClick = () => {
+    if (isGoogleCoffee) {
+      if (phase === "locked") setPhase("oneDay");
+      return;
+    }
     if (!unlocked) {
       setUnlocked(true);
       onUnlock();
     }
   };
 
+  const showUnlocked = isGoogleCoffee ? phase === "revealed" : unlocked;
+  const showOneDay = isGoogleCoffee && (phase === "oneDay" || phase === "animating" || phase === "revealed");
+  const showAnimating = isGoogleCoffee && phase === "animating";
+  const showContent = isGoogleCoffee ? phase === "revealed" : unlocked;
+
   return (
     <motion.button
       type="button"
       onClick={handleClick}
       className={`w-full text-left relative overflow-hidden border transition-all duration-500 ${
-        unlocked ? "border-purple/30" : "border-white/10 hover:border-white/20"
+        showUnlocked ? "border-purple/30" : "border-white/10 hover:border-white/20"
       }`}
       whileTap={{ scale: 0.99 }}
     >
@@ -52,17 +107,17 @@ function BucketCardWithTrack({
           <span className="text-[10px] tracking-[0.3em] text-purple-light/70">{num}</span>
           <span
             className={`text-[9px] tracking-[0.2em] ${
-              unlocked ? "text-purple-light" : "text-gray/50"
+              showUnlocked ? "text-purple-light" : "text-gray/50"
             }`}
           >
-            {unlocked ? "✓ UNLOCKED" : bucketListSection.statusLocked}
+            {showUnlocked ? "✓ UNLOCKED" : lockedLabel}
           </span>
         </div>
 
         <h3 className="text-sm tracking-[0.15em] text-white mb-4">{item.title}</h3>
 
         <AnimatePresence mode="wait">
-          {!unlocked ? (
+          {!showOneDay && !showContent ? (
             <motion.p
               key="locked"
               initial={{ opacity: 0 }}
@@ -77,19 +132,48 @@ function BucketCardWithTrack({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <p className="text-[10px] tracking-[0.2em] text-purple-light/60 mb-3">
-                {bucketListSection.statusUnlock}
-              </p>
-              {item.lines.map((line, i) => (
-                <p
-                  key={i}
-                  className={`text-sm font-serif italic text-off-white/80 leading-relaxed ${
-                    i > 0 ? "mt-2" : ""
-                  } ${item.isPlayful && i === item.lines.length - 1 ? "text-purple-light/70" : ""}`}
-                >
-                  {line}
+              {showOneDay && (
+                <p className="text-[10px] tracking-[0.2em] text-purple-light/60 mb-3">
+                  {bucketListSection.statusUnlock}
                 </p>
-              ))}
+              )}
+
+              {showAnimating && <GoogleCoffeeReveal />}
+
+              {showContent && (
+                <>
+                  {isGoogleCoffee && !showAnimating && (
+                    <div className="flex items-center justify-center gap-4 py-6">
+                      <span className="text-3xl" aria-hidden>☕</span>
+                      <span className="text-lg tracking-[0.35em] text-white font-light">GOOGLE</span>
+                    </div>
+                  )}
+                  {item.lines.map((line, i) => (
+                    <p
+                      key={i}
+                      className={`text-sm font-serif italic text-off-white/80 leading-relaxed ${
+                        i > 0 ? "mt-2" : ""
+                      } ${item.isPlayful && i === item.lines.length - 1 ? "text-purple-light/70" : ""}`}
+                    >
+                      {line}
+                    </p>
+                  ))}
+                  {item.footerLines && (
+                    <div className="mt-6 pt-4 border-t border-white/5">
+                      {item.footerLines.map((line, i) => (
+                        <p
+                          key={i}
+                          className={`text-xs font-serif italic text-off-white/60 ${
+                            i > 0 ? "mt-2" : ""
+                          }`}
+                        >
+                          {line}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
