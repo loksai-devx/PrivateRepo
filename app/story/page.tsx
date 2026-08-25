@@ -1,5 +1,7 @@
-import { StoryTimeline } from "@/components/StoryTimeline";
 import Link from "next/link";
+import { StoryTimeline } from "@/components/StoryTimeline";
+import { CreatorEasterEgg } from "@/components/CreatorSignature";
+import { StoryChapterNav } from "@/components/StoryChapterNav";
 
 export default function StoryPage() {
   return (
@@ -9,7 +11,10 @@ export default function StoryPage() {
           ← HOME
         </Link>
       </div>
+
       <StoryTimeline />
+      <CreatorEasterEgg />
+      <StoryChapterNav active="story" />
     </div>
   );
 }

@@ -108,13 +108,19 @@ export function Hero() {
         initial={false}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-0 right-0 flex justify-center gap-8 text-[10px] tracking-[0.2em] text-gray/50"
+        className="absolute bottom-8 left-0 right-0 flex flex-wrap justify-center gap-x-6 gap-y-2 px-4 text-[10px] tracking-[0.2em] text-gray/50"
       >
         <Link href="/her-world" className="hover:text-purple-light transition-colors">
           HER WORLD
         </Link>
         <Link href="/story" className="hover:text-purple-light transition-colors">
           OUR STORY
+        </Link>
+        <Link href="/promises" className="hover:text-purple-light transition-colors">
+          MY PROMISES
+        </Link>
+        <Link href="/bucket-list" className="hover:text-purple-light transition-colors">
+          BUCKET LIST
         </Link>
       </motion.div>
     </section>

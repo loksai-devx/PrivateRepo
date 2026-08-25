@@ -9,6 +9,7 @@ import { getUnlockState } from "@/lib/dates";
 import { markBirthdayOpened } from "@/lib/storage";
 import { finalEasterEggMessage } from "@/data/memories";
 import { MiniMusicPlayer, MusicPlayer } from "./MusicPlayer";
+import { BirthdayFooter } from "./CreatorDetails";
 import Link from "next/link";
 
 export function BirthdayUnlock() {
@@ -175,6 +176,8 @@ function BirthdayFullExperience({ maxSongDay }: { maxSongDay: number }) {
           { label: "Her World", href: "/her-world" },
           { label: "Gallery", href: "/gallery" },
           { label: "Our Story", href: "/story" },
+          { label: "My Promises", href: "/promises" },
+          { label: "Bucket List", href: "/bucket-list" },
           { label: "The Train", href: "/train" },
           { label: "LinkedIn", href: "/linkedin" },
           { label: "Peaceful Place", href: "/peaceful" },
@@ -207,6 +210,7 @@ function BirthdayFullExperience({ maxSongDay }: { maxSongDay: number }) {
       </div>
 
       <FinalEasterEgg />
+      <BirthdayFooter />
     </div>
   );
 }

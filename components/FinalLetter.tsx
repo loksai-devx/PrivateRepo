@@ -6,6 +6,7 @@ import { letter, finalMessage } from "@/data/letter";
 import { getBirthdaySong } from "@/data/songs";
 import { isBirthdaySongUnlocked } from "@/lib/songs";
 import { MusicPlayer } from "./MusicPlayer";
+import { CreatorFinalClosing } from "./CreatorDetails";
 
 type LetterPhase = "title" | "intro" | "reveal" | "complete" | "final-song";
 
@@ -16,6 +17,7 @@ export function FinalLetter() {
   const [showFinal, setShowFinal] = useState(false);
   const [finalStep, setFinalStep] = useState(0);
   const [showClosing, setShowClosing] = useState(false);
+  const [showCreatorClosing, setShowCreatorClosing] = useState(false);
   const [showBirthdaySong, setShowBirthdaySong] = useState(false);
   const [birthdayUnlocked, setBirthdayUnlocked] = useState(false);
 
@@ -215,11 +217,15 @@ export function FinalLetter() {
           </motion.div>
         )}
 
-        {showClosing && (
+        {showClosing && !showCreatorClosing && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center p-6 text-center"
+            onClick={() => {
+              setShowClosing(false);
+              setShowCreatorClosing(true);
+            }}
           >
             <p className="text-2xl font-light tracking-[0.2em] text-white mb-8">
               Happy Birthday, Nanna.
@@ -227,6 +233,11 @@ export function FinalLetter() {
             <p className="text-sm text-gray">{finalMessage.signoff}</p>
           </motion.div>
         )}
+
+        <CreatorFinalClosing
+          active={showCreatorClosing}
+          onComplete={() => setShowCreatorClosing(false)}
+        />
       </AnimatePresence>
     </div>
   );

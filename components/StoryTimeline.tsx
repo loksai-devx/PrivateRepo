@@ -42,7 +42,19 @@ export function StoryTimeline() {
         ))}
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center mt-12">
+        <Link
+          href="/promises"
+          className="px-6 py-3 border border-white/10 text-[10px] tracking-[0.2em] text-gray hover:border-purple/30 hover:text-purple-light transition-all text-center"
+        >
+          MY PROMISES →
+        </Link>
+        <Link
+          href="/bucket-list"
+          className="px-6 py-3 border border-white/10 text-[10px] tracking-[0.2em] text-gray hover:border-purple/30 hover:text-purple-light transition-all text-center"
+        >
+          BUCKET LIST →
+        </Link>
         <Link
           href="/linkedin"
           className="px-6 py-3 border border-white/10 text-[10px] tracking-[0.2em] text-gray hover:border-purple/30 hover:text-purple-light transition-all text-center"
